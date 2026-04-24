@@ -13,8 +13,24 @@ jobs:
       MONGODB_USERNAME: admin
       MONGODB_PASSWORD: admin123
       MONGODB_PORT: 27017
-      PORT: 8080
+      PORT: 3000
+      MONGODB_URI: mongodb://admin:admin123@localhost:27017/testdb?authSource=admin
     environment: testing
+
+    services:
+      mongodb:
+        image: mongo:8.0
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: admin123
+        options: >-
+          --health-cmd "mongosh -u admin -p admin123 --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
