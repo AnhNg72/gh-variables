@@ -8,6 +8,7 @@ env:
   MONGODB_DB_NAME: gha-demo
 jobs:
   test:
+    environment: testing #reference the testing Environment
     env:
       MONGODB_CLUSTER_ADDRESS: localhost
       MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
@@ -15,8 +16,6 @@ jobs:
       MONGODB_PORT: 27017
       PORT: 3000
       MONGODB_URI: mongodb://${env.MONGODB_USERNAME}:${env.MONGODB_PASSWORD}@${env.MONGODB_CLUSTER_ADDRESS}:${env.MONGODB_PORT}/gha-demo?authSource=admin
-    environment: testing
-
     services:
       mongodb:
         image: mongo:8.0
